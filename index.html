@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Slider</title>
+    <style>
+    @-webkit-keyframes bolaEntra {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+    @keyframes bolaEntra {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+    @-webkit-keyframes bolaSai {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    @keyframes bolaSai {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+
+
+    #container {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 340px;
+        height: 250px;
+        box-sizing: border-box;
+        overflow: hidden;
+        border: 1px solid #333;
+    }
+
+    #container-interno {
+        position: absolute;
+        top: 160px;
+        left: 25px;
+        width: 285px;
+        height: 80px;
+        border: 1px solid #333;
+    }
+
+    #botao {
+        top: 10px;
+        left: 0px;
+        width: 70px;
+        height: 20px;
+        background-color: green;
+        cursor: -webkit-grab;
+        cursor: -webkit-grabbing;
+    }
+
+    #f1 {
+        position: absolute;
+        top: 0px;
+        left: 140px;
+        width: 3px;
+        height: 80px;
+        background-color: #333;
+    }
+
+    #f2 {
+        position: absolute;
+        top: 0px;
+        left: 70px;
+        width: 3px;
+        height: 80px;
+        background-color: #333;
+    }
+
+    #f3 {
+        position: absolute;
+        top: 0px;
+        left: 210px;
+        width: 3px;
+        height: 80px;
+        background-color: #333;
+    }
+
+    #bola-vermelha {
+        position: absolute;
+        top: 13%;
+        left: -250px;
+        width: 100px;
+        height: 100px;
+        transform-origin: center;
+        background-color: red;
+        border-radius: 100px;
+    }
+
+    #bola-verde {
+        position: absolute;
+        top: 13%;
+        left: -250px;
+        width: 100px;
+        height: 100px;
+        transform-origin: center;
+        background-color: green;
+        border-radius: 100px;
+    }
+
+    #bola-azul {
+        position: absolute;
+        top: 13%;
+        left: -250px;
+        width: 100px;
+        height: 100px;
+        transform-origin: center;
+        background-color: blue;
+        border-radius: 100px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="container-interno">
+            <div id="f1"></div>
+            <div id="f2"></div>
+            <div id="f3"></div>
+            <div id="botao"></div>
+        </div>
+        <div id="bola-vermelha"></div>
+        <div id="bola-verde"></div>
+        <div id="bola-azul"></div>
+    </div>
+    <script>
+    arrastarBotao("botao");
+
+
+    function elemento(el) {
+        return document.getElementById(el);
+    }
+
+
+    var botaoObjeto = null,
+        botao,
+        containerInterno = elemento("container-interno"),
+        bolaVermelha = elemento("bola-vermelha"),
+        bolaVerde = elemento("bola-verde"),
+        bolaAzul = elemento("bola-azul");
+
+        bolaVermelha.style.display = "none";
+        bolaVerde.style.display = "none";
+        bolaAzul.style.display = "none";
+
+
+    function arrastarBotao(id) {
+        botao = document.getElementById(id);
+        botao.style.position = "absolute";
+        this.onmousedown = function() {
+            botaoObjeto = botao;
+        }
+    }
+
+    window.onmouseup = function() {
+        botaoObjeto = null;
+    };
+
+    window.onmousemove = function(e) {
+        var x = e.pageX - 65;
+        if (botaoObjeto == null) {
+            return;
+        }
+        botaoObjeto.style.left = x + "px";
+        if (botaoObjeto.offsetLeft > containerInterno.clientWidth - botaoObjeto.clientWidth) {
+
+            botaoObjeto.style.left = containerInterno.clientWidth - botaoObjeto.clientWidth + "px";
+        }
+        if (botaoObjeto.offsetLeft < 0) {
+            botaoObjeto.style.left = 0 + "px";
+
+        }
+
+        if (botaoObjeto.offsetLeft >= 5 && botaoObjeto.offsetLeft <= 70) {
+            bolaVermelha.style.display = "block";
+            bolaVermelha.style.left = x + 85 + "px";
+            bolaVermelha.style.animation = "bolaEntra 0.5s ease 0s 1 normal forwards";
+
+
+        } else {
+
+            bolaVermelha.style.animation = "bolaSai 0.5s ease 0s 1 normal forwards";
+
+        }
+
+
+        if (botaoObjeto.offsetLeft >= 73 && botaoObjeto.offsetLeft <= 140) {
+            bolaVerde.style.display = "block";
+            bolaVerde.style.left = x + 15 + "px";
+            bolaVerde.style.animation = "bolaEntra 0.5s ease 0s 1 normal forwards";
+
+        } else {
+
+            bolaVerde.style.animation = "bolaSai 0.5s ease 0s 1 normal forwards";
+        }
+        if (botaoObjeto.offsetLeft >= 143 && botaoObjeto.offsetLeft <= 210) {
+            bolaAzul.style.display = "block";
+            bolaAzul.style.left = x - 55 + "px";
+            bolaAzul.style.animation = "bolaEntra 0.5s ease 0s 1 normal forwards";
+
+        } else {
+
+            bolaAzul.style.animation = "bolaSai 0.5s ease 0s 1 normal forwards";
+        }
+    };
+    </script>
+</body>
+
+</html>
